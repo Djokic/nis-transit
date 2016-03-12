@@ -1,0 +1,26 @@
+<template name="selectedStation">
+  <div class="panel panel-default selected-station {{#if selectedStation.name}}active{{/if}}">
+    <div class="panel-heading">
+      <h3 class="panel-title">Selected station</h3>
+    </div>
+    <div class="panel-body">
+      <div class="form-group">
+        <label for="selected-station-name">Station name</label>
+        <input type="text" class="form-control selected-station-name" id="selected-station-name" placeholder="Station name" autocomplete="off" value="{{selectedStation.name}}">
+      </div>
+      <div class="form-group">
+        <label for="selected-station-lines">Lines</label>
+        <div class="selected-station-lines" id="selected-station-lines">
+          {{#if selectedStation.lines}}
+            {{#each line in selectedStation.lines}}
+              <span class="label label-primary">{{line}}</span>
+            {{/each}}
+          {{else}}
+            <span class="label label-default">No lines</span>
+          {{/if}}
+        </div>
+      </div>
+      <button type="button" class="btn btn-danger selected-station-delete">Delete</button>
+    </div>
+  </div>
+</template>

@@ -21,5 +21,6 @@ insecure                # Allow all DB writes from clients (for prototyping)
 reactive-var
 dburles:google-maps
 kadira:flow-router
-semantic:ui
-fourseven:scss
+kadira:blaze-layout
+flemay:less-autoprefixer
+twbs:bootstrap
