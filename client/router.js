@@ -1,17 +1,17 @@
 FlowRouter.route('/admin', {
-  action: function() {
+  action: function () {
     BlazeLayout.render("admin");
   }
 });
 
 FlowRouter.route('/', {
-  action: function() {
+  action: function () {
     BlazeLayout.render("landingPage");
   }
 });
 
 FlowRouter.route('/:lineId', {
-  action: function() {
+  action: function () {
     BlazeLayout.render("line");
   }
 });

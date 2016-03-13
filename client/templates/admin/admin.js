@@ -1,4 +1,4 @@
-Template.admin.onCreated(function() {
+Template.admin.onCreated(function () {
   Session.setDefault('newStation',{})
   Session.setDefault('newLine',[])
   Session.setDefault('selectedStation',{})

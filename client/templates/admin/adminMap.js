@@ -1,8 +1,8 @@
-Template.adminMap.onCreated(function() {
+Template.adminMap.onCreated(function () {
   this.stations = new ReactiveVar({});
 });
 
-Template.adminMap.onRendered(function() {
+Template.adminMap.onRendered(function () {
   GoogleMaps.load();
   const _this = this;
 
@@ -18,7 +18,7 @@ Template.adminMap.onRendered(function() {
     });
 
     Stations.find().observe({
-      added: function(document) {
+      added: document => {
 
         //Create a marker for this station
         let station = new google.maps.Marker({
@@ -46,13 +46,13 @@ Template.adminMap.onRendered(function() {
         stations[document._id] = station;
         _this.stations.set(stations);
       },
-      changed: function(newDocument, oldDocument) {
+      changed: (newDocument, oldDocument) => {
         let stations = _this.stations.get();
         stations[newDocument._id].document = newDocument;
         stations[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
         _this.stations.set(stations);
       },
-      removed: function(document) {
+      removed: document => {
         let stations = _this.stations.get();
         stations[document._id].setMap(null);
         delete stations[document._id];
@@ -61,17 +61,17 @@ Template.adminMap.onRendered(function() {
       }
     });
 
-    Tracker.autorun(function() {
+    Tracker.autorun(() => {
       let stations = _this.stations.get();
       let selectedStation = Session.get('selectedStation');
       let newLine = Session.get('newLine');
 
-      Object.keys(stations).forEach((id) => {
+      Object.keys(stations).forEach(id => {
         stations[id].setIcon(MAP_MARKER.DEFAULT)
       });
 
       newLine.forEach(station => {
-        Object.keys(stations).forEach((id) => {
+        Object.keys(stations).forEach(id => {
           if(station._id === id)
             stations[id].setIcon(MAP_MARKER.IN_LINE)
         })
@@ -88,7 +88,7 @@ Template.adminMap.onRendered(function() {
 });
 
 Template.adminMap.helpers({
-  mapOptions: function() {
+  mapOptions: () => {
     if (GoogleMaps.loaded()) {
       // Map initialization options
       return {

@@ -9,6 +9,9 @@
         <li>{{station.name}}</li>
         {{/each}}
       </ul>
+      {{#if newLine}}
+      <button type="button" class="btn btn-primary btn-block new-line-create" data-toggle="modal" data-target=".new-line">Create New Line</button>
+      {{/if}}
     </div>
   </div>
 </template>

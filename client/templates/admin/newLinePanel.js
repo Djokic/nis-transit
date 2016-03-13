@@ -1,5 +1,8 @@
 Template.newLinePanel.helpers({
-  newLine: function() {
-    return Session.get('newLine');
-  }
+  newLine: () => Session.get('newLine')
 })
+
+Mousetrap.bind('c', () => {
+  if(!$("input").is(':focus'))
+    $('.new-line-create').click();
+});
