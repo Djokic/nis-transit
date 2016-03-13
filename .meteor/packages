@@ -24,3 +24,4 @@ kadira:flow-router
 kadira:blaze-layout
 flemay:less-autoprefixer
 twbs:bootstrap
+mousetrap:mousetrap

@@ -33,3 +33,22 @@ Template.selectedStation.events({
     Session.set('newLine', newLine);
   }
 });
+
+// Bind mousetrap so keyboard shortcuts can be used for user actions
+Mousetrap.bind('a', function() {
+  if(!$("input").is(':focus')) {
+    $('.selected-station-add-to-line').click();
+  }
+});
+
+Mousetrap.bind('r', function() {
+  if(!$("input").is(':focus')) {
+    $('.selected-station-remove-from-line').click();
+  }
+});
+
+Mousetrap.bind('d', function() {
+  if(!$("input").is(':focus')) {
+    $('.selected-station-delete').click();
+  }
+});
