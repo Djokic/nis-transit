@@ -64,14 +64,25 @@ Template.adminMap.onRendered(function() {
     Tracker.autorun(function() {
       let stations = _this.stations.get();
       let selectedStation = Session.get('selectedStation');
+      let newLine = Session.get('newLine');
 
       Object.keys(stations).forEach((id) => {
         stations[id].setIcon(MAP_MARKER.DEFAULT)
       });
 
+      newLine.forEach(station => {
+        Object.keys(stations).forEach((id) => {
+          if(station._id === id)
+            stations[id].setIcon(MAP_MARKER.IN_LINE)
+        })
+      })
+
       if(selectedStation._id) {
         stations[selectedStation._id].setIcon(MAP_MARKER.SELECTED)
       }
+
+      // Causes circular dependency and infinite loop of Tracker.autorun
+      //_this.stations.set(stations);
     });
   });
 });

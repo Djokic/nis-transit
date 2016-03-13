@@ -1,0 +1,14 @@
+<template name="newLinePanel">
+  <div class="panel panel-default new-line-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">New line</h3>
+    </div>
+    <div class="panel-body">
+      <ul>
+        {{#each station in newLine}}
+        <li>{{station.name}}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>
