@@ -21,6 +21,8 @@
         </div>
       </div>
       <button type="button" class="btn btn-danger selected-station-delete">Delete</button>
+      <button type="button" class="btn btn-primary selected-station-add-to-line {{#if isInNewLine}}disabled{{/if}}">Add</button>
+      <button type="button" class="btn btn-warning selected-station-remove-from-line {{#unless isInNewLine}}disabled{{/unless}}">Remove</button>
     </div>
   </div>
 </template>
