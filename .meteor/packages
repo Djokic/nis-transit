@@ -25,3 +25,5 @@ kadira:blaze-layout
 flemay:less-autoprefixer
 twbs:bootstrap
 mousetrap:mousetrap
+http
+jesty:polyline
