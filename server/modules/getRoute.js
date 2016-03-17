@@ -67,11 +67,14 @@ let _parseRoutePart = (response) => {
   steps.forEach(step => {
     // TODO: investigate is step start and end included in polyline points
 
-    //const stepStart = [step.start_location.lat, step.start_location.lng];
-    //const stepEnd = [step.end_location.lat, step.end_location.lng];
-    const stepPoints = polyline.decode(step.polyline.points);
-    //stepPoints.unshift(stepStart);
-    //stepPoints.push(stepEnd);
+    const stepPoints = polyline.decode(step.polyline.points).map(point => {
+      return {
+        lat: point[0],
+        lng: point[1]
+      }
+    });
+    //stepPoints.unshift(step.start_location);
+    //stepPoints.push(step.end_location);
     points = points.concat(stepPoints);
   });
 
@@ -92,20 +95,22 @@ let _parseRoutePart = (response) => {
 let getRoute = (points, mode = 'driving') => {
  /**
   * Google Directions API has a limit of 23 point in single request
-  * because of that we split points array in smaller chunks, with the maximum size of 20 (minimum size of 3)
+  * because of that we split points array in smaller chunks, with the maximum size of 23 (minimum size of 2)
   * and fetch Dirction data for each chunk separetly
   * At the end we combine all results and get complete Route
   */
- const chunkSize = points.length % 20 > 3 ? 20 : parseInt((points.length - 3) / 20, 10);
- const pointGroups = _chunk(points, chunkSize);
 
- let promises = [];
+  //FIXME fix chunk size calcuclation
+  const chunkSize = points.length % 23 !== 1 ? 23 : 22;
+  const pointGroups = _chunk(points, chunkSize);
 
- pointGroups.forEach(pointGroup => {
+  let promises = [];
+
+  pointGroups.forEach(pointGroup => {
    promises.push(_getRoutePart(pointGroup, mode))
- })
+  })
 
- return Promise.all(promises).then(responses => {
+  return Promise.all(promises).then(responses => {
    let Route = {
      distance: 0,
      duration: 0,
@@ -120,7 +125,7 @@ let getRoute = (points, mode = 'driving') => {
      Route.points = Route.points.concat(part.points);
    })
    return Route;
- });
+  });
 }
 
 Modules.server.getRoute = getRoute;

@@ -51,6 +51,10 @@ Template.adminMap.onRendered(function () {
         stations[newDocument._id].document = newDocument;
         stations[newDocument._id].setPosition({ lat: newDocument.lat, lng: newDocument.lng });
         _this.stations.set(stations);
+
+        let selectedStation = Session.get('selectedStation');
+        selectedStation = stations[selectedStation._id].document;
+        Session.set('selectedStation', selectedStation);
       },
       removed: document => {
         let stations = _this.stations.get();
@@ -67,7 +71,15 @@ Template.adminMap.onRendered(function () {
       let newLine = Session.get('newLine');
 
       Object.keys(stations).forEach(id => {
-        stations[id].setIcon(MAP_MARKER.DEFAULT)
+        const station = stations[id];
+        station.setIcon(MAP_MARKER.DEFAULT);
+
+        if(station.document.lines.length) {
+          station.setDraggable(false);
+          station.setIcon(MAP_MARKER.LOCKED);
+        } else {
+          station.setDraggable(true);
+        }
       });
 
       newLine.forEach(station => {

@@ -1,0 +1,18 @@
+<template name="lines">
+  <div class="panel panel-default lines">
+    <div class="panel-heading">
+      <h3 class="panel-title">Lines</h3>
+    </div>
+    <div class="panel-body">
+      {{#if selectedLine}}
+      <strong>{{selectedLine}}</strong>      
+      <button class="btn btn-danger selected-line-delete">Delete</button>
+      {{/if}}
+      <ul>
+      {{#each line in lines}}
+        <li>{{line}}</li>
+      {{/each}}
+      </ul>
+    </div>
+  </div>
+</template>

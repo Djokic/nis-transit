@@ -29,17 +29,18 @@ Template.newLine.events({
   'submit .new-line': (event, template) => {
     event.preventDefault();
     const number = $('#new-line-number').val();
-    const direction = $('[name="new-line-direction"]').val();
+    const direction = $('[name="new-line-direction"]:checked').val();
     const stations = Session.get('newLine');
-    //Meteor.call('getLineRoute', stations);
-    //calculateRoute(template.map, template.directionsService, stations);
-    const v = Meteor.call('getLineRoute', stations, (err, ret) => {
-      console.log(ret)
-    });
     Session.set('newLine', []);
+    Meteor.call('createLine', number, direction, stations, (err, ret) => {
+      if(! err) {
+        console.log(ret);
+      } else {
+        throw new Meteor.Error(err);
+      }
+    });
   }
 });
-
 
 /*
 function calculateRoute(map, directionsService, points) {
@@ -53,7 +54,6 @@ function calculateRoute(map, directionsService, points) {
   const start = points.shift().location;
   const finish = points.pop().location;
 
-  console.log(points)
 
   directionsService.route({
     origin: start,
