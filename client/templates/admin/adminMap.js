@@ -12,7 +12,8 @@ Template.adminMap.onRendered(function () {
         {
           name: "",
           lat: event.latLng.lat(),
-          lng: event.latLng.lng()
+          lng: event.latLng.lng(),
+          lines: []
         }
       )
     });

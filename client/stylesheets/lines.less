@@ -1,6 +1,18 @@
 .lines {
-  position: absolute;
-  width: 300px;
-  bottom: 50px;
-  left: 50px;
+  min-width: 100px;
+  text-align: right;
+}
+
+.selected-line-delete {
+  padding-left: 5px;
+  padding-right: 5px;
+  transition: .2s ease;
+
+  &:hover, &:focus {
+    color: #e74c3c !important;
+  }
+
+  &.disabled {
+    color: #4b6075 !important;
+  }
 }

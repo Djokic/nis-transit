@@ -38,7 +38,7 @@ Template.lines.helpers({
 })
 
 Template.lines.events({
-  'click .selected-line-delete': () => {
+  'click .selected-line-delete:not(.disabled)': () => {
     const number = Session.get('selectedLine');
 
     //FIXME auto update selectedLine in tracker when line is deleted

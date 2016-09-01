@@ -1,17 +1,18 @@
 <template name="newLinePanel">
-  <div class="panel panel-default new-line-panel">
-    <div class="panel-heading">
-      <h3 class="panel-title">New line</h3>
-    </div>
-    <div class="panel-body">
-      <ul>
-        {{#each station in newLine}}
-        <li>{{station.name}}</li>
-        {{/each}}
-      </ul>
-      {{#if newLine}}
-      <button type="button" class="btn btn-primary btn-block new-line-create" data-toggle="modal" data-target=".new-line">Create New Line</button>
-      {{/if}}
-    </div>
+  <div class="new-line-panel {{#if newLine}}active{{/if}}">
+    <strong>New line</strong>
+    <ul>
+      {{#each station in newLine}}
+      <li>
+        <span class="fui-radio-unchecked"></span>
+        {{station.name}}</li>
+      {{/each}}
+    </ul>
+    <footer>
+      <div class="btn-group" role="group" aria-label="New line actions">
+        <button type="button" class="btn btn-primary new-line-create {{#unless containsMoreThanOne newLine}}disabled{{/unless}}"><span class="fui-check"></span></button>
+        <button type="button" class="btn btn-warning new-line-clean"><span class="fui-cross"></span></button>
+      </div>
+    </footer>
   </div>
 </template>

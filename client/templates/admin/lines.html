@@ -1,18 +1,37 @@
 <template name="lines">
-  <div class="panel panel-default lines">
-    <div class="panel-heading">
-      <h3 class="panel-title">Lines</h3>
-    </div>
-    <div class="panel-body">
+  <li class="dropdown lines">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
       {{#if selectedLine}}
-      <strong>{{selectedLine}}</strong>      
-      <button class="btn btn-danger selected-line-delete">Delete</button>
+        {{selectedLine}}
+      {{else}}
+        <span class="fui-cmd"></span> Line
       {{/if}}
-      <ul>
+      {{#if lines}}
+      <span class="caret"></span>
+      {{/if}}
+    </a>
+    {{#if lines}}
+    <ul class="dropdown-menu">
       {{#each line in lines}}
-        <li>{{line}}</li>
+      <li><a href="#{{line}}">{{line}}</a></li>
       {{/each}}
-      </ul>
-    </div>
-  </div>
+    </ul>
+    {{/if}}
+  </li>
+  <li >
+    <a href="#" class="selected-line-delete {{#unless selectedLine}}disabled{{/unless}}" title="Delete the line"><span class="fui-trash"></span></a>
+  </li>
+  <!--
+  <div class="lines">
+    <h4>Lines</h4>
+    <ul>
+    {{#each line in lines}}
+      <li class="{{#if equals line selectedLine}}active{{/if}}">{{line}}</li>
+    {{/each}}
+    </ul>
+    {{#if selectedLine}}
+    <hr>
+    <button class="btn btn-danger btn-sm btn-block selected-line-delete">Delete</button>
+    {{/if}}
+  </div>-->
 </template>

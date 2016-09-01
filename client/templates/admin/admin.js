@@ -9,3 +9,9 @@ Template.admin.onCreated(function () {
   Session.set('selectedStation',{})
   Session.set('selectedLine', false)
 });
+
+Template.admin.events({
+  'click .log-out': () => {
+    Meteor.logout();
+  }
+});

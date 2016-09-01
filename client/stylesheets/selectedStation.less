@@ -1,13 +1,33 @@
 .selected-station {
-  position: relative;
-  width: 300px;
-  top: 50px;
-  left: 50px;
-
-  transition: .3s ease;
+  padding: 2rem;
+  border-top: 5px solid #1abc9c;
+  border-bottom: 2px solid #e9ecef;
+  background: #f7f9fa;
+  transition: .2s ease;
   transform: scale(0);
+  opacity: 0;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
 
   &.active {
     transform: scale(1);
+    opacity: 1;
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 2rem;
+    color: #1abc9c;
+  }
+
+  .btn-group {
+    width: 100%;
+
+    .btn {
+      width: 33.33%;
+    }
+  }
+
+  .form-control, .label {
+    display: inline-block;
   }
 }

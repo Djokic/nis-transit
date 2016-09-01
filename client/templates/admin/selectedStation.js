@@ -19,6 +19,10 @@ Template.selectedStation.events({
     }
   },
   'click .selected-station-delete:not(.disabled)': function () {
+    let newLine = Session.get('newLine').filter(station => {
+      return station._id != Session.get('selectedStation')._id
+    });
+    Session.set('newLine', newLine);
     Stations.remove(Session.get('selectedStation')._id);
   },
   'click .selected-station-add-to-line:not(.disabled)':function () {

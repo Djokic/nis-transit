@@ -1,6 +1,84 @@
 .new-line-panel {
-  position: absolute;
-  width: 300px;
-  top: 50px;
-  right: 50px;
+  z-index: 999;
+	transition: .2s ease;
+	transform: scale(0);
+	opacity: 0;
+  overflow: auto;
+	background: #fff;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
+
+	&.active {
+		transform: scale(1);
+		opacity: 1;
+	}
+
+	strong {
+		display: block;
+		padding: 2rem 2rem 1rem;
+		color: #1abc9c;
+	}
+
+	ul {
+		list-style-type: none;
+		padding: 1rem 2rem;
+		margin: 0;
+    max-height: 40vh;
+    overflow: auto;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
+		li {
+      position: relative;
+			color: darken(#bcc3ca, 15%);
+			line-height: 2.2;
+
+      &:before, &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 100%;
+        background: #bcc3ca;
+        left: .75rem;
+      }
+
+      &:before {
+        bottom: .3rem;
+      }
+
+      &:after {
+        bottom: -.6rem;
+      }
+
+      &:last-child {
+        &:before, &:after {
+          display: none;
+        }
+      }
+
+      span {
+        font-size: 1.1em;
+        vertical-align: middle;
+        margin-right: 1rem;
+        color: #bcc3ca;
+      }
+		}
+	}
+
+  footer {
+    padding: 2rem;
+    background: #f7f9fa;
+
+    .btn-group {
+      width: 100%;
+
+      .btn:first-child {
+        width: 66.66%;
+      }
+
+      .btn:last-child {
+        width: 33.33%;
+      }
+    }
+  }
 }

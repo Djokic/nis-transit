@@ -1,10 +1,29 @@
 <template name="admin">
+  <nav class="navbar navbar-inverse navbar-embossed navbar-lg navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <img src="/images/icons/logo.png">
+        </a>
+      </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        {{> lines}}
+
+        <li><a href="#" class="log-out"><span class="fui-exit" title="Log out"></span></a></li>
+      </ul>
+    </div>
+  </nav>
+
   {{> adminMap}}
 
   {{> newStation}}
-  {{> selectedStation}}
-
-  {{> newLinePanel}}
   {{> newLine}}
+
   {{> lines}}
+
+  <div class="sidebar">
+    {{> selectedStation}}
+    {{> newLinePanel}}
+  </div>
 </template>
