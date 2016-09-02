@@ -1,4 +1,5 @@
 <template name="admin">
+  {{#if loggedIn}}
   <nav class="navbar navbar-inverse navbar-embossed navbar-lg navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -10,7 +11,9 @@
       <ul class="nav navbar-nav navbar-right">
         {{> lines}}
 
-        <li><a href="#" class="log-out"><span class="fui-exit" title="Log out"></span></a></li>
+        <li>
+          <a href="#" class="log-out"><span class="fui-exit" title="Log out"></span></a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -26,4 +29,26 @@
     {{> selectedStation}}
     {{> newLinePanel}}
   </div>
+  {{else}}
+  <div class="log-in-panel">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <img src="/images/icons/logo.png" alt="Nis Transit" class="log-in-logo"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-7">
+          <h3>Welcome to Nis Transit App</h3>
+          <p>To continue please log in with your Google account.</p>
+          <hr>
+          <button type="button" name="button" class="log-in btn btn-lg btn-danger"><span class="fui-google-plus"></span> Log in with Google</button>
+        </div>
+        <div class="col-sm-5">
+          <img src="/images/icons/bus-stop.jpg" alt="Bus line" class="img-responsive img-circle center-block">
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/if}}
 </template>

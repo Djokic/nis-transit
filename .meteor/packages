@@ -27,3 +27,5 @@ twbs:bootstrap
 mousetrap:mousetrap
 http
 jesty:polyline
+accounts-base
+accounts-google

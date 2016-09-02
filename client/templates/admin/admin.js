@@ -11,7 +11,16 @@ Template.admin.onCreated(function () {
 });
 
 Template.admin.events({
+  'click .log-in': () => {
+    Meteor.loginWithGoogle();
+  },
   'click .log-out': () => {
     Meteor.logout();
   }
 });
+
+Template.admin.helpers({
+  'loggedIn': () => {
+    return !!Meteor.user();
+  }
+})
