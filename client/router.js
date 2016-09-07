@@ -10,7 +10,7 @@ FlowRouter.route('/', {
   }
 });
 
-FlowRouter.route('/:lineId', {
+FlowRouter.route('/:lineNumber', {
   action: function () {
     BlazeLayout.render("line");
   }
