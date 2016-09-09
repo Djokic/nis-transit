@@ -10,11 +10,15 @@ Meteor.methods({
       stations.forEach(station => {
         Stations.update({_id: station._id}, {$addToSet: {"lines": number}})
       });
+
+      Meteor.call('createBusesForLine', number);
+
       return true;
     });
   },
   deleteLine: number => {
     Lines.remove({number});
     Stations.update({ }, {$pull: {"lines": number }}, {multi: true});
+    Buses.remove({line: number});
   }
 })

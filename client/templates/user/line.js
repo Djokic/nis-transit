@@ -5,25 +5,6 @@ Template.line.onRendered(function () {
   const lineNumber = FlowRouter.getParam("lineNumber");
 
   GoogleMaps.ready('lineMap', map => {
-    /*Stations.find({ lines: { $in: [lineId] } }).observe({
-      added: document => {
-        console.log(document)
-
-        //Create a marker for this station
-        let station = new google.maps.Marker({
-          draggable: false,
-          animation: google.maps.Animation.DROP,
-          position: new google.maps.LatLng(document.lat, document.lng),
-          map: map.instance,
-          icon: MAP_MARKER.DEFAULT,
-          // We store the document _id on the marker in order
-          // to update the document within the 'dragend' event below.
-          id: document._id,
-          document: document
-        });
-      }
-    });*/
-
     const stations = Stations.find({ lines: { $in: [lineNumber] } });
     stations.forEach(station => {
       const stationMarker = new google.maps.Marker({
@@ -48,6 +29,25 @@ Template.line.onRendered(function () {
       });
       polyline.setMap(map.instance)
     })
+
+    // This needs to be dynamic so it's auto updated when bus position changes
+    let BusMarkers = {};
+    Buses.find({line: lineNumber}).observe({
+  		added: function (bus) {
+        BusMarkers[bus._id] = new google.maps.Marker({
+          draggable: false,
+          position: new google.maps.LatLng(bus.coordinates.lat, bus.coordinates.lng),
+          map: map.instance,
+          icon: MAP_MARKER.LOCKED,
+          // We store the document _id on the marker in order
+          // to update the document within the 'dragend' event below.
+          id: bus._id
+        });
+  		},
+  		changed: function (bus) {
+        BusMarkers[bus._id].setPosition(new google.maps.LatLng(bus.coordinates.lat, bus.coordinates.lng))
+  		}
+  	});
   });
 });
 
