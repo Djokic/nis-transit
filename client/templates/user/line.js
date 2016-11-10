@@ -39,8 +39,6 @@ Template.line.onRendered(function () {
           position: new google.maps.LatLng(bus.coordinates.lat, bus.coordinates.lng),
           map: map.instance,
           icon: MAP_MARKER.LOCKED,
-          // We store the document _id on the marker in order
-          // to update the document within the 'dragend' event below.
           id: bus._id
         });
   		},
