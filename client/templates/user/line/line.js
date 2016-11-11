@@ -1,10 +1,30 @@
 Template.line.onRendered(function () {
-  GoogleMaps.load();
+  LineRef = this;
+  LineRef.number = FlowRouter.getParam("lineNumber");
 
-  const _this = this;
-  const lineNumber = FlowRouter.getParam("lineNumber");
+  L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images/';
 
-  GoogleMaps.ready('lineMap', map => {
+  LineRef.map = L.map('line-map', {doubleClickZoom: false}).setView([MAP_CENTER_LAT,MAP_CENTER_LNG], MAP_ZOOM);
+  LineRef.map.options.maxZoom = MAP_ZOOM + 3;
+  L.tileLayer.provider('OpenStreetMap.BlackAndWhite').addTo(LineRef.map);
+
+
+  const stations = Stations.find({ lines: { $in: [LineRef.number] } }).fetch();
+  stations.forEach(station => {
+    const stationMarker = L.marker([station.lat, station.lng]).addTo(LineRef.map);
+    const stationPopup = L.popup().setContent(`<p>${station.name}</p> <strong>${station.lines}</strong>`);
+    stationMarker.bindPopup(stationPopup);
+  });
+
+  const lines = Lines.find({ number: LineRef.number }).fetch();
+  lines.forEach(line => {
+    const lineRoute = line.route.points.map(point => { return [point.lat, point.lng]});
+    const linePolyline = L.polyline(lineRoute, {color: 'red'}).addTo(LineRef.map);
+    const linePopup = L.popup().setContent(`<p>${line.number}</p>`);
+    linePolyline.bindPopup(linePopup);
+  })
+
+  /*GoogleMaps.ready('lineMap', map => {
     const stations = Stations.find({ lines: { $in: [lineNumber] } });
     stations.forEach(station => {
       const stationMarker = new google.maps.Marker({
@@ -46,21 +66,9 @@ Template.line.onRendered(function () {
         BusMarkers[bus._id].setPosition(new google.maps.LatLng(bus.coordinates.lat, bus.coordinates.lng))
   		}
   	});
-  });
+  });*/
 });
 
 
 Template.line.helpers({
-  mapOptions: () => {
-    if (GoogleMaps.loaded()) {
-      // Map initialization options
-      return {
-        center: new google.maps.LatLng(MAP_CENTER_LAT, MAP_CENTER_LNG),
-        zoom: MAP_ZOOM,
-        styles: MAP_COLOR_SCHEME,
-        disableDefaultUI: true,
-        disableDoubleClickZoom: true
-      };
-    }
-  }
 });
