@@ -1,0 +1,17 @@
+<template name="home">
+  <main class="home">
+    <div class="line-picker {{#if linePickerActive}}active{{/if}}">
+      <h1>Select a line from the list</h1>
+      <div class="line-picker__pick">
+        Pick a line
+      </div>
+      <ul class="line-picker__lines">
+        {{#each line in lines}}
+        <li class="line-picker__line" data-line-number="{{line.number}}">
+          {{line.startStation}} <span class="glyphicon glyphicon-transfer"></span> {{line.endStation}} <span class="line-picker__line__number">{{line.number}}</span>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </main>
+</template>

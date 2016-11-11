@@ -5,7 +5,9 @@ Meteor.methods({
     })
 
     return Modules.server.getRoute(points).then( route => {
-      Lines.upsert({ number, direction }, { $set: { number, direction, route } });
+      const startStation = stations[0].name;
+      const endStation = stations[stations.length-1].name;
+      Lines.upsert({ number, direction }, { $set: { number, direction, route, startStation, endStation } });
 
       stations.forEach(station => {
         Stations.update({_id: station._id}, {$addToSet: {"lines": number}})
