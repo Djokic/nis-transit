@@ -9,7 +9,7 @@
       <label for="selected-station-lines" class="sr-only">Lines</label>
       <div class="selected-station-lines" id="selected-station-lines">
         {{#if selectedStation.lines}}
-          {{#each line in selectedStation.lines}}
+          {{#each line in selectedStation.linesWithDirection}}
             <span class="label label-primary">{{line}}</span>
           {{/each}}
         {{else}}

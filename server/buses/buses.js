@@ -24,7 +24,8 @@ Meteor.methods({
      * then line is complete and buses can be created for that line
      */
 		if(lines.length === 2) {
-      let route = generateCompleteRoute(lines);
+      const route = generateCompleteRoute(lines);
+			const duration = lines[0].route.duration + lines[1].route.duration
 			const numberOfBuses = Math.floor(Math.random() * 7 + 4); // random number between 4 and 10
 
 			for(let i = 0; i < numberOfBuses; i++) {
@@ -33,8 +34,10 @@ Meteor.methods({
 					line: number,
 					regNum: generateRegistrationNumber(),
 					position: currentPosition,
-					coordinates: route.points[currentPosition]
-					//inStation: bus.inStation
+					coordinates: route.points[currentPosition],
+					route: route,
+					updateInterval: Math.floor((duration / route.points.length) * 1000),
+					speedCoeficient: (Math.random() * (1.2 - 0.8) + 0.8)
 					}
 				);
 			}
@@ -46,23 +49,12 @@ Meteor.startup(() => {
 	let buses = Buses.find();
 	buses.observe({
 		added: (bus) => {
-			const lines = Lines.find().fetch();
-      let route = generateCompleteRoute(lines);
-			var delay = 700;
-			var multiplier = 1;
+			const numberOfPoints = bus.route.points.length;
+			let busPosition = bus.position;
 			Meteor.setInterval(function () {
-				bus.position = (bus.position >= route.points.length - 1) ? 0 : bus.position + 1;
-				bus.coordinates = route.points[bus.position];
-				//bus.inStation = path[bus.position].station;
-				//multiplier = bus.inStation ? 8.5 : 1;
-				Buses.update({_id: bus._id},
-												 {$set: {
-														position: bus.position,
-														coordinates: bus.coordinates,
-														//inStation: bus.inStation
-												 }
-												});
-			}, delay * multiplier);
+				busPosition = (busPosition >= numberOfPoints - 1) ? 0 : busPosition + 1;
+				Buses.update({_id: bus._id}, {$set: { position: busPosition}});
+			},bus.updateInterval * bus.speedCoeficient);
 		}
 	});
 });

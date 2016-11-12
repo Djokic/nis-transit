@@ -4,7 +4,28 @@
 }
 
 .leaflet-popup {
-  transition: opacity .2s ease, transform 1s linear !important;
+  .leaflet-popup-content-wrapper {
+    border-radius: 0;
+    padding: .5rem;
+    text-align: center;
+
+    p {
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin: .4rem 0;
+    }
+  }
+
+  .station-popup {
+    min-width: 15rem;
+    max-width: 25rem;
+    span {
+      display: inline-block;
+      padding: .4rem;
+      border: 1px solid #eee;
+      margin: .4rem;
+    }
+  }
 }
 
 @station-marker-color: red;
@@ -99,7 +120,7 @@
     }
   }
 
-  &:active, &:focus {
+  &:active, &:focus, &.active  {
     &:before {
       transform: translate3d(-50%, -50%, 0) scale(1.5);
     }
@@ -107,5 +128,21 @@
     &:after {
       transform: translate3d(-50%, -50%, 0) scale(2);
     }
+  }
+}
+
+.active-bus {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 4rem;
+  z-index: 9999;
+  background: white;
+  transform: translateY(100%);
+  transition: .2s ease;
+
+  &.active {
+    transform: translateY(0%);
   }
 }

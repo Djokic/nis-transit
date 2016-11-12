@@ -1,3 +1,11 @@
 <template name="line">
   <div id="line-map" class="line-map"></div>
+
+
+
+  <div class="active-bus {{#if activeBus}}active{{/if}}">
+    {{activeBus.regNum}}
+
+    {{nextStation.name}} {{nextStation.eta}}
+  </div>
 </template>

@@ -162,6 +162,33 @@ let _interpolateRoute = (points) => {
 	return points;
 }
 
+let _matchPointsWihtStations = (stations, points) => {
+  const pointsNumber = points.length;
+  const stationsNumber = stations.length;
+
+  let minDistance;
+
+  for(let i = 0; i < pointsNumber; i++) {
+    points[i]['isStation'] = false;
+  }
+
+  for(let i = 0; i < stationsNumber; i++) {
+    minDistance = 1000000;
+    let index;
+    for(let j = 0; j < pointsNumber; j++) {
+      let distance = _haversineDistance(stations[i], points[j]);
+      if( distance < minDistance) {
+				minDistance = distance;
+        index = j;
+			}
+    }
+    points[index]['isStation'] = true;
+    points[index]['stationName'] = stations[i].name;
+  }
+
+  return points;
+}
+
 /**
  * Get route data from Google Directions Service API
  * @param {Array} points - Array of route points, coordinates in format [lat, lng]
@@ -169,7 +196,10 @@ let _interpolateRoute = (points) => {
  * @return {Promise} Route - Route Object { distance, duration, points[]}
  */
 
-let getRoute = (points, mode = 'driving') => {
+let getRoute = (stations, mode = 'driving') => {
+  const points = stations.map(station => {
+    return `${station.lat},${station.lng}`
+  })
  /**
   * Google Directions API has a limit of 23 point in single request
   * because of that we split points array in smaller chunks, with the maximum size of 23 (minimum size of 2)
@@ -203,6 +233,8 @@ let getRoute = (points, mode = 'driving') => {
    })
 
    Route.points = _interpolateRoute(Route.points);
+
+   Route.points = _matchPointsWihtStations(stations, Route.points);
 
    return Route;
   });

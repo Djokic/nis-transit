@@ -1,0 +1,8 @@
+<template name="stationPopup">
+  <div class="station-popup">
+    <p>{{station.name}}</p>
+    {{#each line in station.linesWithDirection}}
+    <span>{{line}}</span>
+    {{/each}}
+  </div>
+</template>
