@@ -33,6 +33,7 @@ ejson@1.0.12
 es5-shim@4.6.14
 fastclick@1.0.12
 flemay:less-autoprefixer@1.2.0
+fortawesome:fontawesome@4.7.0
 geojson-utils@1.0.9
 google@1.1.13
 hot-code-push@1.0.4

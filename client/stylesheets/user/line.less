@@ -5,7 +5,7 @@
 
 .leaflet-popup {
   .leaflet-popup-content-wrapper {
-    border-radius: 0;
+    border-radius: 2px;
     padding: .5rem;
     text-align: center;
 
@@ -28,8 +28,18 @@
   }
 }
 
-@station-marker-color: red;
-@bus-marker-color: #1BBE95;
+.leaflet-bar a:first-child {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.leaflet-bar a:last-child {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+@station-marker-color: #09b8f3;
+@bus-marker-color: #ec1056;
 
 .station-icon {
   background-color: @station-marker-color;
@@ -133,16 +143,41 @@
 
 .active-bus {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 4rem;
+  display: table;
+  bottom: 1rem;
+  right: 1rem;;
+  padding: 1.5rem 3rem;
   z-index: 9999;
   background: white;
-  transform: translateY(100%);
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.23);
+  opacity: 0;
   transition: .2s ease;
+  text-align: center;
+
+  div {
+    display: table-cell;
+    width: 12rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .fa {
+    font-size: 3rem;
+
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+  }
+
+  .active-bus__animation {
+
+  }
 
   &.active {
-    transform: translateY(0%);
+    opacity: 1;
   }
 }

@@ -1,11 +1,20 @@
 <template name="line">
-  <div id="line-map" class="line-map"></div>
+  <div id="line-map" class="line-map"></div>  
 
 
 
   <div class="active-bus {{#if activeBus}}active{{/if}}">
-    {{activeBus.regNum}}
-
-    {{nextStation.name}} {{nextStation.eta}}
+    <div class="active-bus__bus-icon">
+      <i class="fa fa-bus" aria-hidden="true"></i>
+      <p>{{activeBus.regNum}}</p>
+    </div>
+    <div class="active-bus__animation">
+      <span></span>
+      <p>{{nextStation.eta}}</p>
+    </div>
+    <div class="active-bus__next-station">
+      <i class="fa fa-map-marker" aria-hidden="true"></i>
+      <p>{{nextStation.name}}</p>
+    </div>
   </div>
 </template>

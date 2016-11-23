@@ -34,7 +34,7 @@ Template.line.onRendered(function () {
   lines.observe({
     added: (line) => {
       const lineRoute = line.route.points.map(point => { return [point.lat, point.lng]});
-      const linePolyline = L.polyline(lineRoute, {color: 'white', weight: 8, className: 'line-polyline'}).addTo(LineRef.map);
+      const linePolyline = L.polyline(lineRoute, {color: 'white', weight: 2, className: 'line-polyline'}).addTo(LineRef.map);
       const linePopup = L.popup().setContent(`<p>${line.number} | ${line.direction}</p>`);
       linePolyline.bindPopup(linePopup);
       LineRef.map.fitBounds(linePolyline.getBounds())
@@ -62,7 +62,8 @@ Template.line.onRendered(function () {
             index = i;
           }
         })
-        LineRef.nextStationETA.set(Math.floor(distanceToStation * bus.updateInterval * bus.speedCoeficient /1000));
+        let eta = Math.floor(distanceToStation * bus.updateInterval * bus.speedCoeficient /1000);
+        LineRef.nextStationETA.set(Math.floor(eta/60) + ':' + (eta%60 > 9 ? '' : '0') + eta%60 );
         LineRef.nextStationName.set(LineRef.buses[bus._id]['stations'][index].stationName);
       }
     }
