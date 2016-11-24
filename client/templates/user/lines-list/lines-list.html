@@ -1,0 +1,9 @@
+<template name="linesList">
+  <ul class="lines-list">
+    {{#each line in lines}}
+    <li class="lines-list__line" data-line-number="{{line.number}}" title="{{line.startStation}} &#8652; {{line.endStation}}">
+      <span class="lines-list__line__name">{{line.startStation}} <span class="glyphicon glyphicon-transfer"></span> {{line.endStation}}</span> <span class="lines-list__line__number">{{line.number}}</span>
+    </li>
+    {{/each}}
+  </ul>
+</template>

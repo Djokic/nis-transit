@@ -1,8 +1,33 @@
 <template name="home">
   <main class="home">
     <div class="home__content">
-      <h1>Select a line from the list</h1>
-      {{> linePicker}}
+      <img src="images/icons/logo.png" alt="">
+      <h1>Welcome to Nis Transit</h1>
+
+      <div class="home__stats">
+        <div>
+          <span class="glyphicon glyphicon-transfer"></span>
+          {{stats.lines}}
+        </div>
+        <div>
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
+          {{stats.stations}}
+        </div>
+        <div>
+          <i class="fa fa-bus" aria-hidden="true"></i>
+          {{stats.buses}}
+        </div>
+      </div>
+
+      <div class="line-picker {{#if linePickerActive}}active{{/if}}">
+        <div class="line-picker__pick">
+          Pick a line
+        </div>
+        <div class="line-picker__lines">
+          {{> linesList}}
+        </div>
+      </div>
+
     </div>
   </main>
 </template>

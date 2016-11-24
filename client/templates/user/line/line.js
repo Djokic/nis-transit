@@ -1,10 +1,14 @@
 Template.line.onCreated(function() {
   LineRef = this;
+  LineRef.number = new ReactiveVar(null);
+
   LineRef.buses = {};
   LineRef.activeBusId = new ReactiveVar(null);
 
   LineRef.nextStationETA = new ReactiveVar(-1);
   LineRef.nextStationName = new ReactiveVar('');
+
+  LineRef.navActive = new ReactiveVar(false);
 
   Tracker.autorun(function() {
     let location =  Geolocation.currentLocation();
@@ -15,7 +19,7 @@ Template.line.onCreated(function() {
 });
 
 Template.line.onRendered(function () {
-  LineRef.number = FlowRouter.getParam("lineNumber");
+  LineRef.number.set(FlowRouter.getParam("lineNumber"));
   L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images/';
 
   LineRef.map = L.map('line-map', {doubleClickZoom: false, zoomControl: false}).setView([MAP_CENTER_LAT,MAP_CENTER_LNG], MAP_ZOOM);
@@ -28,10 +32,10 @@ Template.line.onRendered(function () {
   const myLocationIcon = L.divIcon({ className: 'my-location-icon', iconSize: [20, 20] });
   LineRef.myLocation = L.marker([0, 0], {icon: myLocationIcon}).addTo(LineRef.map);
 
-  const stations = Stations.find({ lines: { $in: [LineRef.number] } });
+  const stations = Stations.find({ lines: { $in: [LineRef.number.get()] } });
   stations.observe({
     added: (station) => {
-      const stationIconSize = Math.ceil(20 * Math.pow(1.05, station.lines.length)); // Dynamic size of station marker based on number of lines
+      const stationIconSize = Math.ceil(20 * Math.pow(1.08, station.lines.length)); // Dynamic size of station marker based on number of lines
       const stationIcon = L.divIcon({ className: 'station-icon', iconSize: [stationIconSize, stationIconSize] });
       const stationMarker = L.marker([station.lat, station.lng], {icon: stationIcon}).addTo(LineRef.map);
       let stationPopup = document.createElement('div');
@@ -40,7 +44,7 @@ Template.line.onRendered(function () {
     }
   });
 
-  const lines = Lines.find({ number: LineRef.number });
+  const lines = Lines.find({ number: LineRef.number.get() });
   lines.observe({
     added: (line) => {
       const lineRoute = line.route.points.map(point => { return [point.lat, point.lng]});
@@ -51,12 +55,16 @@ Template.line.onRendered(function () {
     }
   });
 
-  const buses = Buses.find({ line: LineRef.number });
+  const buses = Buses.find({ line: LineRef.number.get() });
   buses.observe({
     added: (bus) => {
       const busIcon = L.divIcon({ className: `bus-icon bus-icon--${bus._id}`, iconSize: [20, 20] });
       LineRef.buses[bus._id] = {};
-      LineRef.buses[bus._id]['marker'] = L.marker([bus.route.points[bus.position].lat, bus.route.points[bus.position].lng], {icon: busIcon}).addTo(LineRef.map).on('click', () => LineRef.activeBusId.set(bus._id));
+      LineRef.buses[bus._id]['marker'] = L.marker([bus.route.points[bus.position].lat, bus.route.points[bus.position].lng], {icon: busIcon}).addTo(LineRef.map)
+                                          .on('click', () => {
+                                            LineRef.activeBusId.set(bus._id)
+                                            $('.active-bus').addClass('loading');
+                                          });
       $(`.bus-icon--${bus._id}`).css({ transitionDuration: `${bus.updateInterval * bus.speedCoeficient * 1.1}ms`, WebkitTransitionDuration: `${bus.updateInterval * bus.speedCoeficient * 1.1 }ms`});
       LineRef.buses[bus._id]['stations'] = bus.route.points.map((point, index) => { return { position: index, isStation: point.isStation, stationName: point['stationName'] }}).filter((point) => point.isStation);
     },
@@ -87,14 +95,20 @@ Template.line.helpers({
     $(`.bus-icon--${LineRef.activeBusId.get()}`).addClass('active');
     return Buses.findOne({_id: LineRef.activeBusId.get()});
   },
-  'nextStation': ()=> {
+  'nextStation': () => {
+    $('.active-bus').removeClass('loading');
     return {
       name: LineRef.nextStationName.get(),
       eta: LineRef.nextStationETA.get()
     }
+  },
+  'navActive': () => {
+    return LineRef.navActive.get();
   }
 });
 
 Template.line.events({
-
+  'click .lines-nav-toggle': () => {
+    LineRef.navActive.set(!LineRef.navActive.get());
+  }
 });

@@ -1,22 +1,37 @@
 <template name="line">
-  <div id="line-map" class="line-map"></div>
 
-  <div class="line-pick">
-    {{> linePicker}}
+  <div class="header">
+    <a href="/"><img src="images/icons/logo.png" alt=""></a>
+
+    <button class="lines-nav-toggle {{#if navActive}}active{{/if}}">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </div>
 
+  <nav class="lines-nav {{#if navActive}}active{{/if}}">
+    <img src="images/icons/bus-line.jpg" alt="" class="img-circle nav__bg">
+    {{> linesList}}
+  </nav>
+
+  <div id="line-map" class="line-map"></div>
+
+
   <div class="active-bus {{#if activeBus}}active{{/if}}">
-    <div class="active-bus__bus-icon">
-      <i class="fa fa-bus" aria-hidden="true"></i>
-      <p>{{activeBus.regNum}}</p>
-    </div>
-    <div class="active-bus__animation">
-      <span></span>
-      <p>{{nextStation.eta}}</p>
-    </div>
-    <div class="active-bus__next-station">
-      <i class="fa fa-map-marker" aria-hidden="true"></i>
-      <p>{{nextStation.name}}</p>
+    <div class="active-bus__inner">
+      <div class="active-bus__bus-icon">
+        <i class="fa fa-bus" aria-hidden="true"></i>
+        <p>{{activeBus.regNum}}</p>
+      </div>
+      <div class="active-bus__animation">
+        <span></span>
+        <p>{{nextStation.eta}}</p>
+      </div>
+      <div class="active-bus__next-station">
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+        <p>{{nextStation.name}}</p>
+      </div>
     </div>
   </div>
 </template>
