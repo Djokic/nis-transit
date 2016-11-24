@@ -40,6 +40,7 @@
 
 @station-marker-color: #09b8f3;
 @bus-marker-color: #ec1056;
+@my-location-marker-color: #2ecc71;
 
 .station-icon {
   background-color: @station-marker-color;
@@ -141,11 +142,55 @@
   }
 }
 
+.my-location-icon {
+  background-color: @my-location-marker-color;
+  border-radius: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.23);
+  transition: 1s linear;
+
+  &:before, &:after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 100%;
+    transition: .2s ease;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    -webkit-bacface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+    background-color: @my-location-marker-color;
+    opacity: .08;
+    -webkit-bacface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+
+  &:before {
+    transform: translate3d(-50%, -50%, 0) scale(2);
+  }
+
+  &:after {
+    transform: translate3d(-50%, -50%, 0) scale(3);
+  }
+}
+
+.line-pick {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 75rem;
+  z-index: 9999;
+}
+
 .active-bus {
   position: fixed;
   display: table;
   bottom: 1rem;
-  right: 1rem;;
+  left: 1rem;;
   padding: 1.5rem 3rem;
   z-index: 9999;
   background: white;
@@ -154,6 +199,17 @@
   opacity: 0;
   transition: .2s ease;
   text-align: center;
+
+  @media screen and (max-width: 768px) {
+    bottom: 0;
+    left: 0;
+    border-radius: 0px;
+    width: 100%;
+
+    div {
+      width: 33.3%;
+    }
+  }
 
   div {
     display: table-cell;
@@ -180,4 +236,6 @@
   &.active {
     opacity: 1;
   }
+
+
 }

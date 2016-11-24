@@ -1,7 +1,9 @@
 <template name="line">
-  <div id="line-map" class="line-map"></div>  
+  <div id="line-map" class="line-map"></div>
 
-
+  <div class="line-pick">
+    {{> linePicker}}
+  </div>
 
   <div class="active-bus {{#if activeBus}}active{{/if}}">
     <div class="active-bus__bus-icon">

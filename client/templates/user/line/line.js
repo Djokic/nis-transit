@@ -5,18 +5,28 @@ Template.line.onCreated(function() {
 
   LineRef.nextStationETA = new ReactiveVar(-1);
   LineRef.nextStationName = new ReactiveVar('');
+
+  Tracker.autorun(function() {
+    let location =  Geolocation.currentLocation();
+    if(location) {
+      LineRef.myLocation.setLatLng([location.coords.latitude, location.coords.longitude]).update();
+    }
+  })
 });
 
 Template.line.onRendered(function () {
   LineRef.number = FlowRouter.getParam("lineNumber");
   L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images/';
 
-  LineRef.map = L.map('line-map', {doubleClickZoom: false}).setView([MAP_CENTER_LAT,MAP_CENTER_LNG], MAP_ZOOM);
+  LineRef.map = L.map('line-map', {doubleClickZoom: false, zoomControl: false}).setView([MAP_CENTER_LAT,MAP_CENTER_LNG], MAP_ZOOM);
   LineRef.map.options.maxZoom = MAP_ZOOM + 3;
   L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png').addTo(LineRef.map);
   //L.tileLayer.provider('OpenStreetMap.BlackAndWhite').addTo(LineRef.map);
 
   LineRef.map.on('click', () => LineRef.activeBusId.set(null));
+
+  const myLocationIcon = L.divIcon({ className: 'my-location-icon', iconSize: [20, 20] });
+  LineRef.myLocation = L.marker([0, 0], {icon: myLocationIcon}).addTo(LineRef.map);
 
   const stations = Stations.find({ lines: { $in: [LineRef.number] } });
   stations.observe({
