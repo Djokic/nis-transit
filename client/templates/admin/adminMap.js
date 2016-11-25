@@ -3,7 +3,7 @@ Template.adminMap.onCreated(function () {
 });
 
 Template.adminMap.onRendered(function () {
-  GoogleMaps.load();
+  GoogleMaps.load({ key: MAP_API_KEY });
   const _this = this;
 
   GoogleMaps.ready('adminMap', map => {
