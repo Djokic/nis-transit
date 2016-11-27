@@ -1,6 +1,6 @@
 # Nis Transit
 
-Transit app for the city of Nis (created with Meteor).
+Transit app for the city of Nis (created with **Meteor**).
 
 ## Description
 
@@ -75,7 +75,8 @@ Clicking *check icon* in *new line panel* or  pressing `C` key on your keybord w
 You need to have [Meteor](https://www.meteor.com/) installed localy in order run this app.
 
 After that just run the following steps in terminal (from the app folder):
-1. `meteor npm install` - install all required npm dependencies
-2. `meteor` - install meteor dependencies and packages and start the app
+
+  1. `meteor npm install` - install all required npm dependencies
+  2. `meteor` - install meteor dependencies and packages and start the app
 
 App will start at: `localhost:3000`
